@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Deposit | Cotton Investment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2 style="text-align:center">Make a Deposit</h2>
+
+<form action="/deposit" method="POST" class="form-box">
+  <input type="number" name="amount" placeholder="Amount" required>
+  
+  <select name="currency">
+    <option value="USD">USD</option>
+  </select>
+
+  <select name="method">
+    <option value="Crypto">Crypto</option>
+  </select>
+<h2>Crypto Deposit</h2>
+
+<label>Select Crypto:</label>
+<select id="crypto">
+  <option value="btc">Bitcoin</option>
+</select>
+
+<p>Send payment to this wallet:</p>
+<input type="text" value="0xjustusalways" readonly>
+
+<label>Upload Proof of Payment:</label>
+<input type="file" id="proof">
+
+<button onclick="startTimer()">I Have Sent Payment</button>
+
+<h3 id="timer">10:00</h3>
+<p>Status: <span id="status">Waiting for confirmation</span></p>
+
+<script>
+let time = 600; // 10 minutes in seconds
+let timerInterval;
+
+function startTimer(){
+  document.getElementById("status").innerText = "Waiting for confirmation";
+
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    document.getElementById("timer").innerText =
+      `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+    if(time <= 0){
+      clearInterval(timerInterval);
+      document.getElementById("status").innerText = "Expired. Contact support.";
+    }
+    time--;
+  },1000);
+}
+
+<!-- Telegram link for account officer -->
+<p>
+  Need help? Contact <a href="https://t.me/AccountOfficer" target="_blank">Account Officer</a> on Telegram
+</p>
+</script>
+<input type="text" placeholder="Enter Transaction Hash" name="txid" required>
+</body>
+</html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

@@ -1,0 +1,55 @@
+<h2>Apply for Loan</h2>
+<h2>Loan Application Form</h2>
+
+<form action="/submit-loan" method="post" enctype="multipart/form-data">
+
+<h3>Personal Information</h3>
+<input type="text" name="fullname" placeholder="Full Name" required><br><br>
+<input type="email" name="email" placeholder="Email Address" required><br><br>
+<input type="tel" name="phone" placeholder="Phone Number" required><br><br>
+<input type="date" name="dob" required><br><br>
+<input type="text" name="address" placeholder="Home Address" required><br><br>
+
+<h3>Loan Details</h3>
+<input type="number" name="loanAmount" placeholder="Loan Amount" required><br><br>
+<select name="repayment">
+  <option>3 Months</option>
+  <option>6 Months</option>
+  <option>12 Months</option>
+</select><br><br>
+
+<h3>Upload Documents</h3>
+<label>ID Card:</label>
+<input type="file" name="idcard" accept=".jpg,.png,.pdf" required><br><br>
+
+<label>SSN / National ID:</label>
+<input type="file" name="ssn" accept=".jpg,.png,.pdf" required><br><br>
+
+<label>Credit Score Report / signature :</label>
+<input type="file" name="creditscore" accept=".jpg,.png,.pdf"><br><br>
+
+<label>Passport Photo:</label>
+<input type="file" name="photo" accept=".jpg,.png" required><br><br>
+
+<h3>Eligibility</h3>
+<input type="checkbox" required> I am above 18 years old <br>
+<input type="checkbox" required> I have a valid ID <br>
+<input type="checkbox" required> I have stable income <br>
+<input type="checkbox" required> I agree to Terms & Conditions <br><br>
+
+
+<button type="submit">Submit Application</button>
+
+</form>
+<!-- Telegram link for manager -->
+<p>
+  Questions? Contact <a href="https://t.me/Manager" target="_blank">Manager</a>
+</p>
+<footer>
+  <p>
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

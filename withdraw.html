@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Withdraw | Cotton Investment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h3>Add Bank Account</h3>
+<input type="text" placeholder="Bank Name" required>
+<input type="text" placeholder="Account Name" required>
+<input type="text" placeholder="Account Number" required>
+<input type="text" placeholder="Country" required>
+<button>Save Bank</button>
+<input type="password" placeholder="Set 4-digit PIN" maxlength="4">
+<button>Save PIN</button>
+<h2 style="text-align:center">Request Withdrawal</h2>
+
+<form action="/withdraw" method="POST" class="form-box">
+  <input type="number" name="amount" placeholder="Amount" required>
+
+  <select name="method">
+    <option value="Bank">Bank Transfer</option>
+ 
+  <input type="password" placeholder="Enter Secret PIN">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<input type="text" placeholder="Enter OTP">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Withdraw</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="invest.html">Invest</a>
+  <a href="profit.html">Profit</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="terms.html">Terms</a>
+</nav>
+
+<div class="container">
+  <div class="card">
+    <h2>Withdraw Funds</h2>
+    <input type="number" placeholder="Enter amount">
+    <button>Submit Withdrawal</button>
+  </div>
+</div>
+
+</body>
+</html>
+
+<button>Submit Withdrawal</button>
+<!-- Telegram link for account officer -->
+<p>
+  Questions? Reach out to <a href="https://t.me/AccountOfficer" target="_blank">Account Officer</a>
+</p>
+<footer>
+  <p>
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+</body>
+</html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

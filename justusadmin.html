@@ -1,0 +1,336 @@
+<h1>Admin Dashboard</h1><a href='/'>Home</a>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard | Cotton Investment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h2>Admin Panel</h2>
+  <a href="/dashboard.html" style="color:white">Investor View</a>
+</header>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <ul>
+      <li>Overview</li>
+      <li>Deposits</li>
+      <li>Withdrawals</li>
+      <li>Loans</li>
+      <li>Users</li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+    <h2>Pending Deposits</h2>
+    <table>
+      <tr>
+        <th>User</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>#1</td>
+        <td>100</td>
+        <td>USD</td>
+        <td>Pending</td>
+      </tr>
+    </table>
+
+    <h2 style="margin-top:40px">Pending Withdrawals</h2>
+    <table>
+      <tr>
+        <th>User</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>#1</td>
+        <td>50</td>
+        <td>Bank</td>
+        <td>Pending</td>
+      </tr>
+    </table>
+
+  </main>
+</div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin – Withdrawals</title>
+</head>
+<body>
+  <h1>Admin Withdrawal Panel</h1>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="withdrawals"></tbody>
+  </table>
+
+  <script>
+    fetch("/admin/withdrawals")
+      .then(res => res.json())
+      .then(data => {
+        const table = document.getElementById("withdrawals");
+        data.forEach(w => {
+          table.innerHTML += `
+            <tr>
+              <td>${w.id}</td>
+              <td>${w.amount}</td>
+              <td>${w.method}</td>
+              <td>${w.status}</td>
+              <td>
+                <a href="/admin/approve/${w.id}">Approve</a>
+              </td>
+            </tr>
+          `;
+        });
+      });
+  </script>
+</body>
+<h1>Admin Dashboard</h1>
+
+<div>
+  <h3>Total Deposits: <span id="deposits"></span></h3>
+  <h3>Total Withdrawals: <span id="withdrawals"></span></h3>
+  <h3>Total Profit: <span id="profit"></span></h3>
+</div>
+
+<script>
+fetch("/admin/stats")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("deposits").innerText = "$" + data.totalDeposits;
+    document.getElementById("withdrawals").innerText = "$" + data.totalWithdrawals;
+    document.getElementById("profit").innerText = "$" + data.totalProfit;
+  });
+</script>
+
+</html>
+<h2>Admin Dashboard</h2>
+
+<button onclick="loadUsers()">View Users</button>
+
+<button onclick="approve()">Approve Transaction</button>
+
+<script>
+function loadUsers() {
+  fetch("/admin/users")
+    .then(res => res.json())
+    .then(data => console.log(data));
+}
+
+function approve() {
+  fetch("/admin/approve-transaction", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ id: 1 })
+  }).then(res => res.text()).then(alert);
+}
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 20px }
+    table { width: 100%; border-collapse: collapse }
+    td, th { border: 1px solid #ccc; padding: 8px }
+    button { padding: 5px 10px }
+  </style>
+</head>
+<body>
+
+<h2>Pending Transactions</h2>
+<table id="tx"></table>
+
+<h2>Pending KYC</h2>
+<table id="kyc"></table>
+
+<script>
+async function loadTransactions() {
+  const res = await fetch("/admin/transactions");
+  const data = await res.json();
+  document.getElementById("tx").innerHTML =
+    "<tr><th>User</th><th>Type</th><th>Amount</th><th>Action</th></tr>" +
+    data.map(t =>
+      `<tr>
+        <td>${t.user_id}</td>
+        <td>${t.type}</td>
+        <td>${t.amount}</td>
+        <td><button onclick="approveTx(${t.id},'${t.type}',${t.amount},${t.user_id})">Approve</button></td>
+      </tr>`
+    ).join("");
+}
+
+async function loadKYC() {
+  const res = await fetch("/admin/kyc");
+  const data = await res.json();
+  document.getElementById("kyc").innerHTML =
+    "<tr><th>User</th><th>Doc</th><th>Action</th></tr>" +
+    data.map(k =>
+      `<tr>
+        <td>${k.email}</td>
+        <td><a href="/uploads/${k.document}" target="_blank">View</a></td>
+        <td><button onclick="approveKYC(${k.id},${k.user_id})">Approve</button></td>
+      </tr>`
+    ).join("");
+}
+
+function approveTx(id,type,amount,user_id){
+  fetch("/admin/approve-transaction",{
+    method:"POST",
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({id,type,amount,user_id})
+  }).then(loadTransactions);
+}
+
+function approveKYC(id,user_id){
+  fetch("/admin/approve-kyc",{
+    method:"POST",
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({user_id})
+  }).then(loadKYC);
+}
+
+loadTransactions();
+loadKYC();
+</script>
+
+</body>
+</html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+  body { font-family: Arial; margin: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+  button { padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<h3>Pending Transactions</h3>
+<table id="transactionsTable">
+  <tr><th>ID</th><th>User</th><th>Type</th><th>Amount</th><th>Action</th></tr>
+</table>
+
+<h3>Pending KYC</h3>
+<table id="kycTable">
+  <tr><th>ID</th><th>User</th><th>Document</th><th>Action</th></tr>
+</table>
+
+<script>
+function loadTransactions() {
+  fetch("/admin/transactions")
+    .then(res => res.json())
+    .then(data => {
+      const table = document.getElementById("transactionsTable");
+      table.innerHTML = `<tr><th>ID</th><th>User</th><th>Type</th><th>Amount</th><th>Action</th></tr>`;
+      data.forEach(tx => {
+        const row = table.insertRow();
+        row.innerHTML = `<td>${tx.id}</td>
+          <td>${tx.user_id}</td>
+          <td>${tx.type}</td>
+          <td>${tx.amount}</td>
+          <td>
+            <button onclick="approveTx(${tx.id}, ${tx.user_id}, '${tx.type}', ${tx.amount})">Approve</button>
+            <button onclick="rejectTx(${tx.id}, ${tx.user_id})">Reject</button>
+          </td>`;
+      });
+    });
+}
+
+function loadKYC() {
+  fetch("/admin/kyc")
+    .then(res => res.json())
+    .then(data => {
+      const table = document.getElementById("kycTable");
+      table.innerHTML = `<tr><th>ID</th><th>User</th><th>Document</th><th>Action</th></tr>`;
+      data.forEach(k => {
+        const row = table.insertRow();
+        row.innerHTML = `<td>${k.id}</td>
+          <td>${k.name}</td>
+          <td>${k.document}</td>
+          <td>
+            <button onclick="approveKYC(${k.id}, ${k.id})">Approve</button>
+            <button onclick="rejectKYC(${k.id}, 'Invalid document')">Reject</button>
+          </td>`;
+      });
+    });
+}
+
+// Actions
+function approveTx(id, user_id, type, amount) {
+  fetch("/admin/approve-transaction", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, user_id, type, amount })
+  }).then(() => loadTransactions());
+}
+
+function rejectTx(id, user_id) {
+  const reason = prompt("Enter reason for rejection:");
+  fetch("/admin/reject-transaction", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, user_id, reason })
+  }).then(() => loadTransactions());
+}
+
+function approveKYC(user_id) {
+  fetch("/admin/approve-kyc", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id })
+  }).then(() => loadKYC());
+}
+
+function rejectKYC(user_id, reason) {
+  fetch("/admin/reject-kyc", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id, reason })
+  }).then(() => loadKYC());
+}
+
+// Initial load
+loadTransactions();
+loadKYC();
+</script>
+</body>
+</html>

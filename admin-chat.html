@@ -1,0 +1,40 @@
+<h2>Admin Live Chat</h2>
+
+<div id="chat-messages" style="height:400px;border:1px solid #ccc;overflow-y:auto"></div>
+<input id="chat-input" placeholder="Reply..." />
+<button onclick="sendMessage()">Send</button>
+
+
+
+  <script src="/socket.io/socket.io.js"></script>
+
+<audio id="notifySound">
+  <source src="/sounds/notify.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const socket = io();
+  const input = document.getElementById("chat-input");
+  const messages = document.getElementById("chat-messages");
+  const sound = document.getElementById("notifySound");
+
+  function sendMessage() {
+    if (input.value.trim() !== "") {
+      socket.emit("chat message", "Admin: " + input.value);
+      input.value = "";
+    }
+  }
+
+  socket.on("chat message", msg => {
+    const p = document.createElement("p");
+    p.textContent = msg;
+    messages.appendChild(p);
+
+    // 🔔 play sound only when USER sends message
+    if (msg.startsWith("User:")) {
+      sound.play();
+    }
+  });
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

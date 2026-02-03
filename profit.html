@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="investplans.html">investplans</a>
+  <a href="profit.html">Profit</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="terms.html">Terms</a>
+</nav>
+
+<div class="container">
+  <div class="card">
+    <h2>Profit Dashboard</h2>
+    <p>Plan: <span id="plan"></span></p>
+    <p>Amount: $<span id="amount"></span></p>
+    <p>ROR: <span id="ror"></span>%</p>
+    <p>Duration: <span id="days"></span> days</p>
+    <hr>
+    <p>Daily Profit: $<span id="dailyProfit"></span></p>
+    <p>Days Passed: <span id="daysPassed"></span></p>
+    <p>Total Profit: $<span id="totalProfit"></span></p>
+  </div>
+</div>
+
+<script>
+const plan = localStorage.getItem("plan");
+const amount = Number(localStorage.getItem("amount"));
+const ror = Number(localStorage.getItem("ror"));
+const days = Number(localStorage.getItem("days"));
+const startDate = new Date(localStorage.getItem("startDate"));
+
+document.getElementById("plan").innerText = plan;
+document.getElementById("amount").innerText = amount;
+document.getElementById("roi").innerText = ror;
+document.getElementById("days").innerText = days;
+
+const dailyProfit = (amount * ror / 100) / days;
+document.getElementById("dailyProfit").innerText = dailyProfit.toFixed(2);
+
+const now = new Date();
+const diff = Math.floor((now - startDate) / (1000*60*60*24));
+const totalProfit = Math.min(diff, days) * dailyProfit;
+
+document.getElementById("daysPassed").innerText = diff;
+document.getElementById("totalProfit").innerText = totalProfit.toFixed(2);
+</script>
+<footer>
+  <p>
+
+
+<h2>My Profit</h2>
+
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>Percent</th>
+      <th>Profit</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="profitTable"></tbody>
+</table>
+
+<script>
+fetch("/api/profit")
+  .then(res => res.json())
+  .then(data => {
+    const table = document.getElementById("profitTable");
+    table.innerHTML = "";
+
+    data.forEach(p => {
+      table.innerHTML += `
+        <tr>
+          <td>₦${p.amount}</td>
+          <td>${p.percent}%</td>
+          <td>₦${p.profit}</td>
+          <td>${new Date(p.created_at).toLocaleDateString()}</td>
+        </tr>
+      `;
+    });
+  });
+</script>
+
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+
+<!-- Telegram link for manager -->
+<p>
+  Questions? Contact <a href="https://t.me/Manager" target="_blank">Manager</a>
+</p>
+
+</body>
+</html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

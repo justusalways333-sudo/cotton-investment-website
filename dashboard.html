@@ -1,0 +1,404 @@
+<div class="dashboard-content">
+
+  <section id="home">
+    <h2>Welcome to Agricultural Foundation Cotton Investment</h2>
+    <p>We are an international agricultural investment company focused on cotton production and export...</p>
+  </section>
+  </section>
+
+</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Investor Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Investor Dashboard</h1>
+  <p>Welcome to your investment account</p>
+
+  <div class="card">
+    <h3>Account Balance</h3>
+    <p><strong>$0.00</strong></p>
+  </div>
+
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Investor Dashboard | Cotton Investment</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <header class="topbar">
+    <h2>Cotton Investment</h2>
+    <button class="logout">Logout</button>
+  </header>
+
+  <!-- MAIN -->
+  <div class="container">
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+
+      <!-- STATS -->
+      <div class="stats">
+        <div class="card">
+          <h3>Balance</h3>
+          <p>$0.00</p>
+        </div>
+        <div class="card">
+          <h3>Total Invested</h3>
+          <p>$0.00</p>
+        </div>
+        <div class="card">
+          <h3>Total Profit</h3>
+          <p>$0.00</p>
+        </div>
+      </div>
+
+      <h2>My Profits</h2>
+      <!-- PROFIT CHART PLACEHOLDER -->
+      <div class="chart">
+        <h3>Profit Chart</h3>
+        <p>(Chart will appear here)</p>
+      </div>
+
+<ul id="profitList"></ul>
+
+<canvas id="profitChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+fetch("/profits")
+  .then(res => res.json())
+  .then(data => {
+    const list = document.getElementById("profitList");
+    const labels = [];
+    const values = [];
+
+    data.forEach(p => {
+      const li = document.createElement("li");
+      li.innerText = `${p.plan}: $${p.profit}`;
+      list.appendChild(li);
+
+      labels.push(p.created_at);
+      values.push(p.profit);
+    });
+
+    new Chart(document.getElementById("profitChart"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "Profit Growth",
+          data: values,
+          fill: false,
+        }]
+      }
+    });
+  });
+</script>
+
+
+<script>
+fetch("/transactions/1")
+  .then(res => res.json())
+  .then(data => {
+    const table = document.getElementById("transactionTable");
+
+    data.forEach(tx => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${tx.type}</td>
+        <td>${tx.amount}</td>
+        <td>${tx.currency || "-"}</td>
+        <td>${tx.status}</td>
+        <td>${tx.created_at}</td>
+      `;
+      table.appendChild(row);
+    });
+  });
+</script>
+
+<h3>Referral Link:</h3>
+<input value="https://yourwebsite.com/register?ref=<%= user.referralCode %>" readonly>
+
+<p>Points: <%= user.points %></0>
+<p>Balance: $<%= user.balance %></0>
+<p>Total Referrals: <%= user.referralsCount %></0>
+
+<a href="/leaderboard">Leaderboard</a>
+
+
+<a href="/referral-history">Referral History</a>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+                                         <a href="dashboard.html">Dashboard</a>
+
+                                        <a href="deposit.html">Deposit</a>
+
+                                        <a href="investplans.html">Invest</a>
+
+                                         <a href="profit.html">Profit</a>
+
+                                         <a href="withdraw.html">Withdraw</a>
+
+                                        <a href="loan.html">loan</a>
+
+                                         <a href="transactiondisplay.html">transactiondisplay</a>
+
+                                          <a href="terms.html">Terms</a>
+
+</nav>
+
+<div class="container">
+  <div class="card">
+    <h2>Welcome Investor</h2>
+    <p>Available Balance: <b>$0</b></p>
+    <p>Invested Amount: <b>$0</b></p>
+    <p>Current Plan: <b>None</b></p>
+  </div>
+
+
+<div class="footer">© 2026 Agricultural Investment Platform</div>
+<footer>
+  <p>
+
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+
+
+<!-- Live Chat Widget -->
+<div id="chat-container" style="position:fixed;bottom:20px;right:20px;width:300px;">
+  <div id="chat-box" style="border:1px solid #ccc;height:200px;overflow-y:auto;padding:5px;"></div>
+  <input id="chat-input" type="text" placeholder="Type a message..." style="width:70%;">
+  <button id="chat-send">Send</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const sendBtn = document.getElementById("chat-send");
+  const chatBox = document.getElementById("chat-box");
+
+  sendBtn.onclick = () => {
+    if (input.value.trim() !== "") {
+      socket.emit("chat message", input.value);
+      input.value = "";
+    }
+  };
+
+  socket.on("chat message", (msg) => {
+    const p = document.createElement("p");
+    p.textContent = msg;
+    chatBox.appendChild(p);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendBtn.click();
+  });
+</script>
+<!-- LIVE CUSTOMER CHAT -->
+<div id="chat-widget">
+  <div id="chat-header">💬 Live Support</div>
+  <div id="chat-messages"></div>
+  <input id="chat-input" placeholder="Type your message..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <div class="fallback">
+    Support offline?
+    <a href="https://t.me/CustomerService" target="_blank">
+      Contact Telegram Support
+    </a>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const input = document.getElementById("chat-input");
+  const messages = document.getElementById("chat-messages");
+
+  function sendMessage() {
+    if (input.value.trim() !== "") {
+      socket.emit("chat message", "User: " + input.value);
+      input.value = "";
+    }
+  }
+
+  socket.on("chat message", msg => {
+    const p = document.createElement("p");
+    p.textContent = msg;
+    messages.appendChild(p);
+    messages.scrollTop = messages.scrollHeight;
+  });
+
+  input.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+
+
+</body>
+
+
+  </form>
+</section>
+<ul>
+  <li><a href="#home">Home</a></li>
+  <li><a href="#about">About</a></li>
+  <li><a href="#faq">FAQ</a></li>
+  <li><a href="#terms">Terms</a></li>
+</ul>
+
+
+ <br>
+  <a href="/logout">Logout</a>
+
+</html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard</title>
+<script src="/socket.io/socket.io.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  .section { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+  button { padding: 8px 15px; cursor: pointer; border-radius: 5px; background-color: #4caf50; color: white; border: none; }
+</style>
+</head>
+<body>
+
+<h1>Welcome, <span id="userName">User</span></h1>
+<p>Balance: $<span id="balance">0</span></p>
+<p>KYC Status: <span id="kycStatus">Pending</span></p>
+
+<div class="section">
+  <h3>Deposit</h3>
+  <input type="number" id="depositAmount" placeholder="Enter amount" />
+  <button onclick="makeDeposit()">Deposit</button>
+</div>
+
+<div class="section">
+  <h3>Invest</h3>
+  <input type="number" id="investAmount" placeholder="Enter amount" />
+  <button onclick="makeInvestment()">Invest</button>
+</div>
+
+<div class="section">
+  <h3>Withdraw</h3>
+  <input type="number" id="withdrawAmount" placeholder="Enter amount" />
+  <button onclick="requestWithdraw()">Request Withdraw</button>
+</div>
+
+<div class="section">
+  <h3>Loan</h3>
+  <input type="number" id="loanAmount" placeholder="Enter loan amount" />
+  <input type="text" id="loanMethod" placeholder="Method (Bank/Crypto)" />
+  <button onclick="requestLoan()">Request Loan</button>
+</div>
+
+<div class="section">
+  <h3>KYC Upload</h3>
+  <form id="kycForm" enctype="multipart/form-data">
+    <input type="file" name="document" required />
+    <input type="text" name="id_type" placeholder="ID Type" required />
+    <input type="text" name="id_number" placeholder="ID Number" required />
+    <input type="text" name="video_link" placeholder="Video Link" />
+    <button type="submit">Upload KYC</button>
+  </form>
+</div>
+
+<script>
+const balanceEl = document.getElementById("balance");
+const kycEl = document.getElementById("kycStatus");
+const userNameEl = document.getElementById("userName");
+
+// Fetch user session info
+fetch("/api/session")
+  .then(res => res.json())
+  .then(data => {
+    userNameEl.textContent = data.email;
+    balanceEl.textContent = data.balance.toFixed(2);
+    kycEl.textContent = data.kyc_status;
+  });
+
+// Deposit
+function makeDeposit() {
+  const amount = document.getElementById("depositAmount").value;
+  fetch("/deposit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount })
+  }).then(r => r.text()).then(alert);
+}
+
+// Invest
+function makeInvestment() {
+  const amount = document.getElementById("investAmount").value;
+  fetch("/invest", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount })
+  }).then(r => r.text()).then(alert);
+}
+
+// Withdraw
+function requestWithdraw() {
+  const amount = document.getElementById("withdrawAmount").value;
+  fetch("/withdraw/request", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount })
+  }).then(r => r.json()).then(data => alert(data.message || JSON.stringify(data)));
+}
+
+// Loan
+function requestLoan() {
+  const amount = document.getElementById("loanAmount").value;
+  const method = document.getElementById("loanMethod").value;
+  fetch("/loan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount, method })
+  }).then(r => r.text()).then(alert);
+}
+
+// KYC Upload
+document.getElementById("kycForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  fetch("/kyc/upload", { method: "POST", body: formData })
+    .then(() => alert("KYC uploaded. Pending approval."));
+});
+</script>
+</body>
+</html>

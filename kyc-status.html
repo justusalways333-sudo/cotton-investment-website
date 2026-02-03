@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KYC Verification</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 40px; }
+    .pending { color: orange; }
+    .approved { color: green; }
+    .declined { color: red; }
+  </style>
+</head>
+<body>
+
+<h2>KYC Video Verification</h2>
+
+<p id="status" class="pending">⏳ Waiting for approval...</p>
+<p id="timer"></p>
+
+<script>
+  const WAIT_TIME = 24 * 60 * 60 * 1000; // 24 hours
+
+  async function checkStatus() {
+    const res = await fetch("/api/kyc/status");
+    const data = await res.json();
+
+    if (data.status === "approved") {
+      document.getElementById("status").textContent = "✅ KYC Approved";
+      document.getElementById("status").className = "approved";
+      document.getElementById("timer").remove();
+      return;
+    }
+
+    if (data.status === "declined") {
+      document.getElementById("status").textContent = "❌ KYC Declined";
+      document.getElementById("status").className = "declined";
+      document.getElementById("timer").remove();
+      return;
+    }
+
+    // Countdown logic
+    const remaining = WAIT_TIME - (Date.now() - data.submitted_at);
+    if (remaining <= 0) {
+      document.getElementById("timer").textContent =
+        "⏳ Review taking longer than expected. Please wait.";
+      return;
+    }
+
+    const hours = Math.floor(remaining / (1000 * 60 * 60));
+    const mins = Math.floor((remaining / (1000 * 60)) % 60);
+
+    document.getElementById("timer").textContent =
+      `Estimated review time: ${hours}h ${mins}m`;
+
+    setTimeout(checkStatus, 10000); // poll every 10 sec
+  }
+
+  checkStatus();
+</script>
+
+</body>
+</html>

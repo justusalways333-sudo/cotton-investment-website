@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Register</h2>
+
+  <form action="/register" method="POST">
+
+    <input type="text" name="name" placeholder="Full Name" required autocomplete="name">
+
+    <input type="email" name="email" placeholder="Email" required autocomplete="email">
+
+    <input type="password" id="password" name="password" placeholder="Password" required onkeyup="checkStrength()" autocomplete="new-password">
+
+    <div id="strength" style="font-size:14px; margin-top:5px;"></div>
+
+    <input type="text" name="referralCode" placeholder="Referral code (optional)">
+
+    <label style="font-size:14px;">
+      <input type="checkbox" onclick="togglePassword()" /> Show password
+    </label>
+
+    <br><br>
+    <button type="submit">Register</button>
+
+  </form>
+
+  <p><a href="login.html">Already have an account?</a></p>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    function checkStrength() {
+      const pwd = document.getElementById("password").value;
+      const strength = document.getElementById("strength");
+
+      if (pwd.length < 6) {
+        strength.textContent = "Weak password";
+        strength.style.color = "red";
+      } else if (/[A-Z]/.test(pwd) && /[0-9]/.test(pwd) && /[^A-Za-z0-9]/.test(pwd)) {
+        strength.textContent = "Strong password";
+        strength.style.color = "green";
+      } else {
+        strength.textContent = "Medium password";
+        strength.style.color = "orange";
+      }
+    }
+  </script>
+  <footer>
+  <p>
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+
+</body>
+</html>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+

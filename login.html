@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<h2>Login</h2>
+
+<!-- LOGIN FORM -->
+<form id="loginForm">
+  <input type="email" name="email" placeholder="Email" required><br><br>
+  <input type="password" name="password" placeholder="Password" required><br><br>
+  <button type="submit">Login</button>
+</form>
+
+<!-- 2FA FORM (HIDDEN FIRST) -->
+<form id="twofaForm" style="display:none;">
+  <h3>Enter Verification Code</h3>
+  <input type="text" id="code" placeholder="6-digit code" required><br><br>
+  <button type="submit">Verify</button>
+</form>
+
+<p id="msg"></p>
+
+<script src="login.js"></script>
+</body>
+</html>
+
+
+    <label style="font-size:14px;">
+      <input type="checkbox" onclick="togglePassword()" />
+      Show password
+    </label>
+
+    <br><br>
+
+    <label style="font-size:14px;">
+      <input type="checkbox" name="remember" />
+      Remember me
+    </label>
+
+    <br><br>
+
+    <button type="submit">Login</button>
+
+  </form>
+
+  <p>
+    <a href="/forgot.html">Forgot password?</a>
+  </p>
+
+  <p>
+    <a href="register.html">Create an account</a>
+  </p>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+  </script>
+  <footer>
+  <p>
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+
+</body>
+</html>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

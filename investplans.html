@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="invest.html">Invest</a>
+  <a href="profit.html">Profit</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="terms.html">Terms</a>
+</nav>
+
+<div class="container">
+  <h2>Investment Plans</h2>
+
+  <div class="plans">
+
+    <div class="plan">
+      <h3>Starter Plan</h3>
+      <p>$5,000 - $20,000</p>
+      <p>ROI: 75%</p>
+      <p>Duration: 15 Business Days</p>
+      <input type="number" id="starterAmount">
+      <label><input type="checkbox" id="starterAgree"> I agree to Terms</label>
+      <button onclick="invest('Starter',25,15,'starterAmount','starterAgree')">Invest</button>
+    </div>
+
+    <div class="plan">
+      <h3>Growth Plan</h3>
+      <p>$20,001 - $50,000</p>
+      <p>ROI: 100%</p>
+      <p>Duration: 30 Days</p>
+      <input type="number" id="growthAmount">
+      <label><input type="checkbox" id="growthAgree"> I agree to Terms</label>
+      <button onclick="invest('Growth',35,30,'growthAmount','growthAgree')">Invest</button>
+    </div>
+
+    <div class="plan">
+      <h3>Wealth Plan</h3>
+      <p>$50,001 - $100,000</p>
+      <p>ROI: 140%</p>
+      <p>Duration: 45 Days</p>
+      <input type="number" id="wealthAmount">
+      <label><input type="checkbox" id="wealthAgree"> I agree to Terms</label>
+      <button onclick="invest('Wealth',50,45,'wealthAmount','wealthAgree')">Invest</button>
+    </div>
+
+    <div class="plan">
+      <h3>Elite Plan</h3>
+      <p>$100,001 - $200,000</p>
+      <p>ROI: 200%</p>
+      <p>Duration: 60 Days</p>
+      <input type="number" id="eliteAmount">
+      <label><input type="checkbox" id="eliteAgree"> I agree to Terms</label>
+      <button onclick="invest('Elite',70,60,'eliteAmount','eliteAgree')">Invest</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function invest(plan, roi, days, amountId, agreeId){
+  const amount = document.getElementById(amountId).value;
+  const agree = document.getElementById(agreeId).checked;
+
+  if(!agree){
+    alert("You must agree to terms");
+    return;
+  }
+
+  localStorage.setItem("plan", plan);
+  localStorage.setItem("amount", amount);
+  localStorage.setItem("roI", roI);
+  localStorage.setItem("days", days);
+  localStorage.setItem("startDate", new Date());
+
+  window.location.href="profit.html";
+}
+</script>
+
+</body>
+</html>
+
+<!-- Telegram link for manager -->
+<p>
+  Questions? Contact <a href="https://t.me/Manager" target="_blank">Manager</a>
+</p>
+<footer>
+  <p>
+    Need help? Contact <a href="https://t.me/CustomerService" target="_blank">Customer Service</a>
+  </p>
+</footer>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">

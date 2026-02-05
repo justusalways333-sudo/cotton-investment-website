@@ -22,7 +22,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 1000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
@@ -722,6 +722,7 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
 
 
 

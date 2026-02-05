@@ -23,6 +23,8 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running"));
+
 
 // ===============================
 // certificate
@@ -654,8 +656,10 @@ app.get("/admin/transactions", isAdmin, (req, res) => {
   db.all(`SELECT * FROM transactions WHERE status='Pending'`, [], (_, rows) => res.json(rows));
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World! Your server is running on Render.");
+app.use(express.static("public"));
+
+app.get("/", (req,res)=>{
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 // ===============================
@@ -714,3 +718,4 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
